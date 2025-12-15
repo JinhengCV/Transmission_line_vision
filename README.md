@@ -1,137 +1,139 @@
-This package provides an implementation of the **inference-stage prediction and analysis code** for our paper:
+This package provides an implementation of the prediction and analysis of our paper work **"Lightweight vision architecture deployed in the terminal for safety monitoring and early warning of transmission lines"**.
 
-**“Lightweight vision architecture deployed in the terminal for safety monitoring and early warning of transmission lines.”**
+This repository provides the **inference-stage code** of the proposed method, including **PC-side inference** and **terminal deployment on RKNN (e.g., RK3588)**.
 
-To meet the editor’s request, this repository releases the **complete inference pipeline** of the proposed method. The usage is divided into two parts: **PC-side inference** and **terminal deployment based on RKNN**.
+---
+
+## Highlights
+
+* **End-to-end inference pipeline** for hazard detection and monitoring.
+* **Ready-to-run demos** for both **image** and **video** inference.
+* **Terminal deployment workflow**: PyTorch → ONNX → RKNN → on-device inference.
 
 ---
 
 ## Part I — PC-Side Inference
 
-### Environment
+### 1) Recommended Environment
 
 * OS: Windows / Linux
 * Python: 3.9 (recommended)
-* PyTorch: 2.0.1 (recommended for checkpoint compatibility)
+* PyTorch: 2.0.1 (recommended for `.pt` checkpoint compatibility)
 * OpenCV: opencv-python
 
-GPU acceleration is supported if a CUDA-enabled PyTorch version is installed.
+GPU acceleration is supported if a CUDA-enabled PyTorch build is installed.
 
 ---
 
-### Installation
+### 2) Installation
 
-Install all required dependencies with:
+Install all dependencies with:
 
 python -m pip install -r requirements.txt
 
 ---
 
-### Image Inference
+### 3) Quick Start
+
+#### Image demo (test.jpg)
 
 Run inference on a single image:
 
 python detect.py --weights runs/train/exp/weights/best.pt --conf 0.25 --img-size 640 --source data/test.jpg
 
-The inference result will be saved automatically to:
+Output:
 
-runs/detect/test.jpg
+* The prediction result will be saved under `runs/detect/` by default.
+* Example output file: `runs/detect/test.jpg`.
 
-**Example visualization**
-
-Input image (data/test.jpg):
-
+**Input (data/test.jpg)**
 ![Input](data/test.jpg)
 
-Output image (runs/detect/test.jpg):
-
+**Output (runs/detect/test.jpg)**
 ![Output](runs/detect/test.jpg)
 
 ---
 
-### Video Inference
+#### Video demo (video.mp4)
 
 Run inference on a video:
 
 python detect.py --weights runs/train/exp/weights/best.pt --conf 0.25 --img-size 640 --source data/video.mp4
 
-The output video will be saved under:
+Output:
 
-runs/detect/
-
-The resulting visualization and temporal behavior are consistent with those shown in the revised manuscript (**Supplementary Video 1.mp4**).
+* The output video will be saved under `runs/detect/` by default.
+* The output visualization is consistent with the results shown in the revised manuscript (**Supplementary Video 1.mp4**).
 
 ---
 
 ## Part II — Terminal Deployment (RKNN / RK3588)
 
-This part provides a practical deployment pipeline for terminal devices equipped with Rockchip NPUs (e.g., RK3588).
+This part provides a standard deployment pipeline for Rockchip NPU platforms (e.g., RK3588):
 
-The workflow consists of:
-
-1. Exporting the PyTorch model to ONNX
-2. Converting the ONNX model to RKNN format
-3. Running inference on the terminal device
+1. Export the PyTorch model to ONNX using `export.py`
+2. Convert ONNX to RKNN using **rknn-toolkit2**
+3. Run the RKNN inference demo on the terminal device using `RKNN/demo_rknn.py`
 
 ---
 
-### Export to ONNX
+### 1) Export to ONNX (on PC)
 
-Export the trained model using:
+Export command (example for RK3588):
 
 python export.py --rknpu RK3588 --weight runs/train/exp/weights/best.pt
 
-After execution, an ONNX model file will be generated (the exact filename depends on the export configuration).
+After export, an ONNX model file will be generated (the exact filename depends on `export.py`).
 
 ---
 
-### ONNX to RKNN Conversion
+### 2) Convert ONNX to RKNN (host-side conversion)
 
-Use **rknn-toolkit2** to convert the ONNX model into an RKNN model.
+Recommended toolchain:
+
+* rknn-toolkit2 (ONNX → RKNN)
 
 Typical pipeline:
 
 best.pt → export.py → model.onnx → rknn-toolkit2 → model.rknn
 
-Recommended host environment:
+Suggested host environment:
 
-* OS: Linux
-* Python: 3.8 / 3.9 (depending on toolkit version)
+* OS: Linux (recommended)
+* Python: 3.8/3.9 (depending on rknn-toolkit2 version)
 
-Please follow the official Rockchip documentation to install and configure rknn-toolkit2.
+Please follow the official Rockchip documentation for installing and configuring **rknn-toolkit2**.
 
 ---
 
-### Terminal Inference on RK3588
+### 3) Run on RKNN Terminal Device (RK3588)
 
-On the terminal device, navigate to the RKNN directory and run:
+On the terminal device, enter the RKNN folder and run the demo:
 
 cd RKNN
 python demo_rknn.py
 
-The demo script performs inference using the RKNN model and the provided calibration and parameter files.
+Notes:
+
+* Please ensure the RKNN runtime is installed on the terminal device (`rknn-runtime`).
+* Required parameter files are provided under `RKNN/parameters/` and will be used during inference.
 
 ---
 
-### Recommended RKNN Runtime Environment
+### 4) RKNN Runtime Environment (example)
 
 * Device: RK3588 (or compatible Rockchip NPU platform)
 * OS: Linux (Ubuntu-based distributions commonly used)
-* Python: 3.8 / 3.9
-* Runtime dependencies:
+* Python: 3.8/3.9 (depending on runtime/toolkit)
+* Dependencies:
 
   * rknn-runtime
   * numpy
   * opencv-python
+  * other dependencies required by `demo_rknn.py`
 
 ---
 
 ## License
 
 This project is released under the license specified in the LICENSE file.
-
----
-
-## Citation
-
-If you use this code for academic or industrial research, please cite our paper accordingly.
