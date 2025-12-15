@@ -30,9 +30,6 @@ from utils.general import check_requirements, xyxy2xywh, xywh2xyxy, xywhn2xyxy, 
     resample_segments, clean_str
 from utils.torch_utils import torch_distributed_zero_first
 
-from LLIE.LLIE_infer import llie
-
-# from Retinex import retinex
 
 # Parameters
 help_url = 'https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data'
@@ -189,11 +186,6 @@ class LoadImages:  # for inference
             self.count += 1
             img0 = cv2.imread(path)  # BGR
             assert img0 is not None, 'Image Not Found ' + path
-            #print(f'image {self.count}/{self.nf} {path}: ', end='')
-
-            ####jinheng add LLIE######
-            img0 = llie(img0)    #注释,用于推理的
-            # img0 = retinex(img0)
 
         # Padded resize
         img = letterbox(img0, self.img_size, stride=self.stride)[0]
@@ -568,11 +560,6 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         else:
             # Load image
             img, (h0, w0), (h, w) = load_image(self, index)
-
-            ####jinheng new add
-            # img = llie(img)  #用于测试的，注释
-            # img = retinex(img)
-            # print('img.shape', img.shape)
 
             # Letterbox
             shape = self.batch_shapes[self.batch[index]] if self.rect else self.img_size  # final letterboxed shape

@@ -1,17 +1,14 @@
-######jinheng新加######
-######2D-3D测距#######
-###可能的误差来源：选取的匹配点数，PNP算法，标定######
+
 from __future__ import division
 import numpy as np
 import cv2
-# from ppdet.utils.visualizer import angpoints, height, width
-# from PIL import Image, ImageDraw, ImageFont
+
 import math
 import os
 from PIL import Image, ImageDraw, ImageFile, ImageFont
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-from parameters.parameters_wuhan import camera_intrinsic, r, t, optimization, depth_map, segments, reps_concat
+from parameters.parameters_hk2 import camera_intrinsic, r, t, optimization, depth_map, segments, reps_concat
 
 def get_color_map_list(num_classes):
     """
@@ -372,8 +369,6 @@ def objectpoint(angpoints, height, width, _label):
 
 
 ######线上的点与每个框顶部点的三维距离#####
-# 用于计算每个分段的左、中、右代表点的距离
-# 避免计算平均值，只需要计算每个分段的三个代表点的距离
 def dist(toppoints, candidate_k=1):
     dist_allboxs, min_points_allboxs = [], []
 
