@@ -12,6 +12,29 @@ This repository provides the **inference-stage code** of the proposed method, in
 
 ---
 
+## Training Setup (for reference)
+
+The model was trained and evaluated on a deep learning computing platform with:
+
+* CPU: Intel Xeon Platinum 8336C
+* GPUs: 4× NVIDIA GeForce RTX 4090
+* Memory: 256GB DDR4 ECC-REG
+* Storage: 1TB PCI-E SSD + 7.68TB NVMe SSD (enterprise-grade)
+
+Training configuration (baseline-aligned):
+
+* Optimizer hyperparameters: initial LR = 0.08, OneCycleLR final LR = 0.0125, momentum = 0.937, weight decay = 5e-4
+* Data augmentation:
+
+  * random translation (ratio = 0.2) and random scaling (ratio = 0.9)
+  * HSV perturbation (hsv_h = 0.015, hsv_s = 0.7, hsv_v = 0.4)
+  * Mosaic, Mixup, and copy-paste augmentation
+* Training schedule: 200 epochs, batch size = 128, using 2× RTX 4090 GPUs
+* Initialization: transfer learning for weight initialization
+* Fair comparison: all models were trained and evaluated under the same experimental conditions
+
+---
+
 ## Part I — PC-Side Inference
 
 ### 1) Recommended Environment
@@ -91,7 +114,7 @@ Export command (example for RK3588):
 python export.py --rknpu RK3588 --weight runs/train/exp/weights/best.pt
 ```
 
-After export, an ONNX model file will be generated (the exact filename depends on `export.py`).
+After export, an ONNX model will be generated (the exact filename depends on `export.py`).
 
 ---
 
