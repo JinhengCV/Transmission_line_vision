@@ -31,7 +31,6 @@ Training configuration (baseline-aligned):
   * Mosaic, Mixup, and copy-paste augmentation
 * Training schedule: 200 epochs, batch size = 128, using 2× RTX 4090 GPUs
 * Initialization: transfer learning for weight initialization
-* Fair comparison: all models were trained and evaluated under the same experimental conditions
 
 ---
 
