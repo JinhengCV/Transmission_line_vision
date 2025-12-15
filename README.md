@@ -1,6 +1,6 @@
 This package provides an implementation of the prediction and analysis of our paper work **"Lightweight vision architecture deployed in the terminal for safety monitoring and early warning of transmission lines"**.
 
-This repository provides the **inference-stage code** of the proposed method, including **PC-side inference** and **terminal deployment on RKNN (e.g., RK3588)**.
+This repository provides the **inference-stage code** and **Training Setup**  of the proposed method, including **PC-side inference** and **terminal deployment on RKNN (e.g., RK3588)**.
 
 ---
 
