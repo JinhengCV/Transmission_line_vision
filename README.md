@@ -29,7 +29,9 @@ GPU acceleration is supported if a CUDA-enabled PyTorch build is installed.
 
 Install all dependencies with:
 
+```shell
 python -m pip install -r requirements.txt
+```
 
 ---
 
@@ -39,7 +41,9 @@ python -m pip install -r requirements.txt
 
 Run inference on a single image:
 
+```shell
 python detect.py --weights runs/train/exp/weights/best.pt --conf 0.25 --img-size 640 --source data/test.jpg
+```
 
 Output:
 
@@ -58,7 +62,9 @@ Output:
 
 Run inference on a video:
 
+```shell
 python detect.py --weights runs/train/exp/weights/best.pt --conf 0.25 --img-size 640 --source data/video.mp4
+```
 
 Output:
 
@@ -81,7 +87,9 @@ This part provides a standard deployment pipeline for Rockchip NPU platforms (e.
 
 Export command (example for RK3588):
 
+```shell
 python export.py --rknpu RK3588 --weight runs/train/exp/weights/best.pt
+```
 
 After export, an ONNX model file will be generated (the exact filename depends on `export.py`).
 
@@ -110,8 +118,10 @@ Please follow the official Rockchip documentation for installing and configuring
 
 On the terminal device, enter the RKNN folder and run the demo:
 
+```shell
 cd RKNN
 python demo_rknn.py
+```
 
 Notes:
 
