@@ -221,22 +221,6 @@ def post_process(input_data, anchors):
     return boxes, classes, scores
 
 
-def draw(image, boxes, scores, classes):
-    # for box, score, cl in zip(boxes, scores, classes):
-    #     top, left, right, bottom = [int(_b) for _b in box]
-    #     # print("%s @ (%d %d %d %d) %.3f" % (CLASSES[cl], top, left, right, bottom, score))
-    #     cv2.rectangle(image, (top, left), (right, bottom), (255, 0, 0), 2)
-    #     cv2.putText(image, '{0} {1:.2f}'.format(CLASSES[cl], score),
-    #                 (top, left - 6), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
-    # return image
-    npscores = scores[:,np.newaxis]
-    npclasses = classes[:,np.newaxis]
-    npboxes = np.concatenate((npclasses, npscores, boxes),axis=1)
-    im = transmission(image, npboxes, CLASSES, threshold=0.5)
-    # class_three = [x for x in label if x != 'jib']
-    # print('class is:', class_three, ' corresponding distance is', mindis)
-    return im
-
 def setup_model(args):
     model_path = args.model_path
     if model_path.endswith('.pt') or model_path.endswith('.torchscript'):
