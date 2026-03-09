@@ -142,11 +142,6 @@ def detect(save_img=False):
                     #     label = f'{names[int(cls)]} {conf:.2f}'
                     #     plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=4)
 
-                    #jinheng新加
-                if save_img or view_img:  # Add bbox to image
-                    # print('numpy.array( npboxes), tuple(names)',numpy.array( npboxes), tuple(names))
-                    im0 = numpy.array(transmission(im0, numpy.array( npboxes), tuple(names), threshold=0.5))
-
             # Print time (inference + NMS)
             print(f'{s}Done. ({(1E3 * (t2 - t1)):.1f}ms) Inference, ({(1E3 * (t3 - t2)):.1f}ms) NMS')
 
